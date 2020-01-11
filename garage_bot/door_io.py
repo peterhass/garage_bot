@@ -8,7 +8,7 @@ class DoorIO:
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(SWITCH_PORT, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(RELAIS_PORT, GPIO.OUT)
+        GPIO.setup(RELAIS_PORT, GPIO.OUT, initial=GPIO.HIGH)
         
     def cleanup(self):
         GPIO.cleanup()
@@ -22,7 +22,7 @@ class DoorIO:
         GPIO.add_event_detect(SWITCH_PORT, GPIO.BOTH, callback=event_callback)
 
     def trigger_relais(self):
-        GPIO.output(RELAIS_PORT, True)
-        time.sleep(0.3)
         GPIO.output(RELAIS_PORT, False)
+        time.sleep(0.3)
+        GPIO.output(RELAIS_PORT, True)
 
