@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import garage_bot
+from garage_bot import GarageBot
 
-garage_bot.run()
+GarageBot().run()
 
 

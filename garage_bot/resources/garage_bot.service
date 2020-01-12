@@ -1,0 +1,12 @@
+# /lib/systemd/system/garage_bot.service
+
+[Unit]
+Description=Garage Bot
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/garage_bot
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
