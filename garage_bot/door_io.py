@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 SWITCH_PORT = 17
-RELAIS_PORT = 2
+RELAIS_PORT = 4
 
 class DoorIO:
     def __init__(self):
@@ -23,6 +23,6 @@ class DoorIO:
 
     def trigger_relais(self):
         GPIO.output(RELAIS_PORT, False)
-        time.sleep(0.3)
+        time.sleep(5.0)
         GPIO.output(RELAIS_PORT, True)
 
