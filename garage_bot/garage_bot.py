@@ -1,10 +1,18 @@
 
-from telegram.ext import Updater, CommandHandler, Filters
+from datetime import datetime, timedelta
+from telegram.ext import Updater, CommandHandler, Filters, BaseFilter
 from .door_controller import DoorController, UnexpectedDoorStateException
 from .door_io import DoorIO
 from .bot_commands import BotCommands
 from .config import Config
 import logging
+
+class _RecentFilter(BaseFilter):
+    def filter(self, message):
+        threshold = datetime.utcnow() - timedelta(seconds = 80)
+
+        return message.date > threshold
+
 
 class GarageBot:
     def __init__(self):
@@ -44,7 +52,8 @@ class GarageBot:
         dispatcher = updater.dispatcher
     
         chat_filter = Filters.chat(int(config.group_chat_id))
-        command_args = { 'filters': chat_filter, 'pass_job_queue':True }
+        recent_filter = _RecentFilter()
+        command_args = { 'filters': chat_filter & recent_filter, 'pass_job_queue':True }
     
         dispatcher.add_handler(CommandHandler('garage_status', commands.status, **command_args))
         dispatcher.add_handler(CommandHandler('garage_auf', commands.open_door, **command_args))
